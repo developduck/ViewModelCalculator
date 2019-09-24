@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Calculator(Mock)</string>
+
+    <string name="base_url">http://treegames.cafe24.com</string>
+</resources>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Calculator</string>
+
+    <string name="base_url">http://treegames.cafe24.com</string>
+    
+    <string name="guide_failed_to_initialize_app">앱을 초기화하는데 실패하였습니다.</string>
+</resources>

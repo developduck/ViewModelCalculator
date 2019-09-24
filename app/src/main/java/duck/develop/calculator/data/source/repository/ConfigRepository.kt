@@ -1,6 +1,5 @@
 package duck.develop.calculator.data.source.repository
 
-import androidx.lifecycle.LiveData
 import duck.develop.calculator.data.source.ConfigDataSource
 
 /**
@@ -12,13 +11,13 @@ class ConfigRepository(
     private val local: ConfigDataSource,
     private val remote: ConfigDataSource
 ): ConfigDataSource {
-    override fun getConfig(): LiveData<Boolean> {
+    override suspend fun getConfig(): Boolean {
         return remote.getConfig()
     }
-    override fun getWelcomeToAndroid(): LiveData<String> {
+    override suspend fun getWelcomeToAndroid(): String {
         return remote.getWelcomeToAndroid()
     }
-    override fun getBaseUrl(): LiveData<String> {
+    override suspend fun getBaseUrl(): String {
         return remote.getBaseUrl()
     }
 }

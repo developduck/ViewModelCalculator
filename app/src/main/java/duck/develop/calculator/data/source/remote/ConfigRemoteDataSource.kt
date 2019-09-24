@@ -1,6 +1,5 @@
 package duck.develop.calculator.data.source.remote
 
-import androidx.lifecycle.LiveData
 import duck.develop.calculator.data.source.ConfigDataSource
 import duck.develop.calculator.data.source.remote.service.ConfigService
 
@@ -12,13 +11,13 @@ import duck.develop.calculator.data.source.remote.service.ConfigService
 class ConfigRemoteDataSource(
     private val service: ConfigService
 ): ConfigDataSource {
-    override fun getConfig(): LiveData<Boolean> {
+    override suspend fun getConfig(): Boolean {
         return service.getConfig()
     }
-    override fun getWelcomeToAndroid(): LiveData<String> {
+    override suspend fun getWelcomeToAndroid(): String {
         return service.getWelcomeToAndroid()
     }
-    override fun getBaseUrl(): LiveData<String> {
+    override suspend fun getBaseUrl(): String {
         return service.getBaseUrl()
     }
 }

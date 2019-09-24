@@ -20,9 +20,9 @@ interface KeyDataAccessObj: DefaultDataAccessObj<Key> {
     }
 
     @Query("SELECT * FROM `key` WHERE id = :id")
-    fun getKey(id: Int): Single<Key>
+    fun getKey(id: Int): Key
     @Query("SELECT * FROM `key` WHERE keyboard_id = :keyboard_id ORDER BY `order` ASC")
-    fun getKeys(keyboard_id: Int): Single<List<Key>>
+    fun getKeys(keyboard_id: Int): List<Key>
     @Query("DELETE FROM `key`")
     fun deleteAll()
 }

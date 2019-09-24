@@ -2,6 +2,7 @@ package duck.develop.calculator.task.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import duck.develop.calculator.data.source.repository.ConfigRepository
 import duck.develop.calculator.extensions.zip
 import duck.develop.calculator.runner.SchedulerProvider
@@ -10,10 +11,11 @@ import duck.develop.calculator.data.event.Event
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 class SplashViewModel(
-    repository: ConfigRepository,
+    private val repository: ConfigRepository,
     private val scheduler: SchedulerProvider
 ) : DefaultViewModel() {
     private lateinit var disposable: CompositeDisposable
@@ -21,14 +23,18 @@ class SplashViewModel(
     private val _event = MutableLiveData<Event<Event.Type>>()
     val event: LiveData<Event<Event.Type>> = _event
 
-    private val _message = repository.getWelcomeToAndroid()
+    private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
 
-    private val _config = repository.getConfig()
+    private val _config = MutableLiveData<Boolean>()
     val config: LiveData<Boolean> = _config
 
     fun start() {
         disposable = CompositeDisposable()
+        viewModelScope.launch {
+            _config.value = repository.getConfig()
+            _message.value = repository.getWelcomeToAndroid()
+        }
     }
 
     fun initialize() {

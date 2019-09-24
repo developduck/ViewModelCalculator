@@ -7,6 +7,11 @@ import duck.develop.calculator.task.viewmodel.SplashViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
+/**
+ * Created by Hwang on 2019-09-24.
+ *
+ * Description : 뷰 모델 모듈
+ */
 val viewModel = module {
     viewModel { SplashViewModel(get(named(Repository.CONFIG_REPOSITORY)), get()) }
     viewModel { CalculateViewModel(get(named(Repository.KEYBOARD_REPOSITORY))) }

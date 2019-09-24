@@ -12,7 +12,7 @@ import duck.develop.calculator.data.source.local.dao.KeyboardDataAccessObj
  *
  * Description : Room 데이터 베이스 추상 객체
  */
-@Database(entities = [Keyboard::class, Key::class], version = 2)
+@Database(entities = [Keyboard::class, Key::class], version = 2, exportSchema = false)
 abstract class ORDBMS: RoomDatabase() {
     abstract fun keyDao(): KeyDataAccessObj
     abstract fun keyboardDao(): KeyboardDataAccessObj

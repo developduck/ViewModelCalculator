@@ -1,11 +1,12 @@
 package duck.develop.calculator.data.source.local
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
+import duck.develop.calculator.data.model.Result
+import duck.develop.calculator.data.model.entity.Keyboard
 import duck.develop.calculator.data.model.query.SelectKeyboardJoinKeyAll
 import duck.develop.calculator.data.source.KeyboardDataSource
 import duck.develop.calculator.data.source.local.dao.KeyboardDataAccessObj
-import duck.develop.calculator.data.model.Result
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * Created by Hwang on 2019-06-28.
@@ -15,17 +16,23 @@ import duck.develop.calculator.data.model.Result
 class KeyboardLocalDataSource(
     private val dao: KeyboardDataAccessObj
 ): KeyboardDataSource {
-    override fun getKeyboardJoinKeyAll(id: Int): LiveData<Result<SelectKeyboardJoinKeyAll>> {
-        return dao.getKeyboardJoinKeyAll(id).map {
-            Result.Success(it)
-        }
-    }
-    override fun insertOrUpdateKeyboardWithKeyAll(query: SelectKeyboardJoinKeyAll): LiveData<Result<SelectKeyboardJoinKeyAll>> {
-        return object: LiveData<Result<SelectKeyboardJoinKeyAll>>() {
-            override fun onActive() {
-                super.onActive()
-                postValue(Result.Success(query))
+    override suspend fun getKeyboardJoinKeyAll(id: Int): Result<SelectKeyboardJoinKeyAll> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                dao.getKeyboardJoinKeyAll(id).let {
+                    Result.Success(it)
+                }
+            } catch (e: Exception) {
+                Result.Error(e)
             }
         }
-    }
+    override suspend fun insertOrUpdateKeyboardWithKeyAll(query: SelectKeyboardJoinKeyAll): Result<SelectKeyboardJoinKeyAll> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                dao.insert(Keyboard(query), query.keys)
+                Result.Success(query)
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+        }
 }

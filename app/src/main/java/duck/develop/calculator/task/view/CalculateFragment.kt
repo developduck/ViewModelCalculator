@@ -62,27 +62,27 @@ class CalculateFragment: DefaultFragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        pnl_keyboard.onGlobalLayout {
+            viewModel.loadKeyboard(pnl_keyboard.width, pnl_keyboard.height)
+        }
         viewModel.keyboard.observe(this, Observer { keyboard ->
             pnl_keyboard.columnCount = keyboard.column_count
-            pnl_keyboard.onGlobalLayout {
-                viewModel.loadKeyboard(pnl_keyboard.width, pnl_keyboard.height)
-            }
         })
         viewModel.keys.observe(this, Observer { keys ->
             keys.forEach { key ->
                 getIdentifier("parts_key_${key.style ?: "default"}", "layout") { resId ->
                     pnl_keyboard.addView(LayoutInflater.from(activity).inflate(resId, null).apply {
-                            layoutParams = LinearLayout.LayoutParams(key.width, key.height)
-                            findViewById<View>(R.id.btn_key).run {
-                                when (this) {
-                                    is TextView -> text = key.display
-                                    is ImageView -> getIdentifier("selector_btn_key_${key.style}_${key.command}", "drawable") { resId ->
-                                        setImageResource(resId)
-                                    }
+                        layoutParams = LinearLayout.LayoutParams(key.width, key.height)
+                        findViewById<View>(R.id.btn_key).run {
+                            when (this) {
+                                is TextView -> text = key.display
+                                is ImageView -> getIdentifier("selector_btn_key_${key.style}_${key.command}", "drawable") { resId ->
+                                    setImageResource(resId)
                                 }
-                                isEnabled = key.command.toLowerCase(Locale.getDefault()) != Type.NONE
-                                clicks().map { key }.subscribe(onClick).let { disposable.add(it) }
                             }
+                            isEnabled = key.command.toLowerCase(Locale.getDefault()) != Type.NONE
+                            clicks().map { key }.subscribe(onClick).let { disposable.add(it) }
+                        }
                     })
                 }
             }

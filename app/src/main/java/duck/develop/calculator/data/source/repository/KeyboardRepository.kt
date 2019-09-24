@@ -1,9 +1,8 @@
 package duck.develop.calculator.data.source.repository
 
-import androidx.lifecycle.LiveData
+import duck.develop.calculator.data.model.Result
 import duck.develop.calculator.data.model.query.SelectKeyboardJoinKeyAll
 import duck.develop.calculator.data.source.KeyboardDataSource
-import duck.develop.calculator.data.model.Result
 
 /**
  * Created by Hwang on 2019-06-28.
@@ -14,10 +13,10 @@ class KeyboardRepository(
     private val local: KeyboardDataSource,
     private val remote: KeyboardDataSource
 ): KeyboardDataSource {
-    override fun getKeyboardJoinKeyAll(id: Int): LiveData<Result<SelectKeyboardJoinKeyAll>> {
+    override suspend fun getKeyboardJoinKeyAll(id: Int): Result<SelectKeyboardJoinKeyAll> {
         return remote.getKeyboardJoinKeyAll(id)
     }
-    override fun insertOrUpdateKeyboardWithKeyAll(query: SelectKeyboardJoinKeyAll): LiveData<Result<SelectKeyboardJoinKeyAll>> {
+    override suspend fun insertOrUpdateKeyboardWithKeyAll(query: SelectKeyboardJoinKeyAll): Result<SelectKeyboardJoinKeyAll> {
         return local.insertOrUpdateKeyboardWithKeyAll(query)
     }
 }

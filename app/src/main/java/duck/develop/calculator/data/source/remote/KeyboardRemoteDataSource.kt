@@ -1,12 +1,12 @@
 package duck.develop.calculator.data.source.remote
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
+import duck.develop.calculator.data.model.Result
 import duck.develop.calculator.data.model.query.SelectKeyboardJoinKeyAll
 import duck.develop.calculator.data.source.KeyboardDataSource
 import duck.develop.calculator.data.source.remote.service.KeyboardService
 import duck.develop.calculator.exception.UnimplementedFunctionException
-import duck.develop.calculator.data.model.Result
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * Created by Hwang on 2019-07-01.
@@ -16,17 +16,17 @@ import duck.develop.calculator.data.model.Result
 class KeyboardRemoteDataSource(
     private val service: KeyboardService
 ): KeyboardDataSource {
-    override fun getKeyboardJoinKeyAll(id: Int): LiveData<Result<SelectKeyboardJoinKeyAll>> {
-        return service.getKeyboardJoinKeyAll(1).map {
-            it.data
-                ?.let { data ->
-                    Result.Success(data)
-                }
-                ?: Result.Error(Exception("data is null"))
-
+    override suspend fun getKeyboardJoinKeyAll(id: Int): Result<SelectKeyboardJoinKeyAll> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                service.getKeyboardJoinKeyAll(1).data?.let {
+                    Result.Success(it)
+                } ?: throw NullPointerException()
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
         }
-    }
-    override fun insertOrUpdateKeyboardWithKeyAll(query: SelectKeyboardJoinKeyAll): LiveData<Result<SelectKeyboardJoinKeyAll>> {
+    override suspend fun insertOrUpdateKeyboardWithKeyAll(query: SelectKeyboardJoinKeyAll): Result<SelectKeyboardJoinKeyAll> {
         throw UnimplementedFunctionException()
     }
 }

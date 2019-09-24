@@ -1,6 +1,5 @@
 package duck.develop.calculator.di.module
 
-import android.os.Parcelable
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.GsonBuilder
 import duck.develop.calculator.R
@@ -10,16 +9,13 @@ import duck.develop.calculator.data.source.remote.service.KeyboardService
 import duck.develop.calculator.di.Network.DEBUGGING_INTERCEPTOR
 import duck.develop.calculator.di.Network.REQUEST_HEADER_INTERCEPTOR
 import duck.develop.calculator.di.named
-import duck.develop.calculator.util.LiveDataCallAdapterFactory
 import okhttp3.Authenticator
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
-import retrofit2.CallAdapter
 import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
@@ -38,16 +34,12 @@ val network = module {
         Retrofit.Builder()
             .baseUrl(androidContext().getString(R.string.base_url))
             .addConverterFactory(get())
-            .addCallAdapterFactory(get())
             .client(get())
             .build()
     }
     factory<Converter.Factory> {
         GsonConverterFactory.create(GsonBuilder()
             .create())
-    }
-    factory<CallAdapter.Factory> {
-        LiveDataCallAdapterFactory.create()
     }
     factory {
         OkHttpClient.Builder()

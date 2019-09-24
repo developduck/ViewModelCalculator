@@ -1,14 +1,11 @@
 package duck.develop.calculator.data.source.local.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import duck.develop.calculator.data.model.entity.Key
 import duck.develop.calculator.data.model.entity.Keyboard
 import duck.develop.calculator.data.model.query.SelectKeyboardJoinKeyAll
-import io.reactivex.Maybe
-import io.reactivex.Single
 
 /**
  * Created by Hwang on 2019-06-28.
@@ -18,7 +15,7 @@ import io.reactivex.Single
 @Dao
 interface KeyboardDataAccessObj: RelationDataAccessObj<Keyboard, Key> {
     @Transaction
-    fun deleteAllAndInsert(keyboards: List<SelectKeyboardJoinKeyAll>) {
+    suspend fun deleteAllAndInsert(keyboards: List<SelectKeyboardJoinKeyAll>) {
         deleteAll()
         for (keyboard in keyboards) {
             insert(Keyboard(keyboard), keyboard.keys)
@@ -26,15 +23,15 @@ interface KeyboardDataAccessObj: RelationDataAccessObj<Keyboard, Key> {
     }
 
     @Query("SELECT * FROM keyboard WHERE id = :id")
-    fun getKeyboard(id: Int): LiveData<Keyboard>
+    suspend fun getKeyboard(id: Int): Keyboard
     @Query("SELECT * FROM keyboard")
-    fun getKeyboards(): LiveData<List<Keyboard>>
+    suspend fun getKeyboards(): List<Keyboard>
     @Transaction
     @Query("SELECT version FROM keyboard WHERE id = :id")
-    fun getKeyboardVersion(id: Int): Maybe<Long>
+    suspend fun getKeyboardVersion(id: Int): Long
     @Transaction
     @Query("SELECT * FROM keyboard WHERE id = :id")
-    fun getKeyboardJoinKeyAll(id: Int): LiveData<SelectKeyboardJoinKeyAll>
+    suspend fun getKeyboardJoinKeyAll(id: Int): SelectKeyboardJoinKeyAll
     @Query("DELETE FROM `keyboard`")
-    fun deleteAll()
+    suspend fun deleteAll()
 }

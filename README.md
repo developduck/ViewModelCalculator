@@ -3,9 +3,9 @@
 
 ## Description
 - Language : Kotlin
-- Architectural Patterns : MVP(Model, Viewer, Presenter), Repository Pattern
+- Architectural Patterns : MVVM(Model, View, ViewModel), Repository Pattern
 - Dependency Injection : Koin
-- Reactive Programming : RxJava2, RxAndroid, RxBinding, RxKotlin
+- Reactive Programming : LiveData + Coroutine
 - Network Module : Retrofit2
 - Database : Room
 - Unit Test(학습 중) : Junit4 + Junit5, Mockito, espresso

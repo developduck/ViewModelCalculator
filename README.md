@@ -1,4 +1,4 @@
-## Calculator
+## ViewModelCalculator
 안드로이드를 위한 아키텍처 학습 프로젝트
 
 ## Description

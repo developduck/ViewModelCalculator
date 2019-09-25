@@ -16,6 +16,12 @@ import kotlinx.coroutines.withContext
 class KeyboardRemoteDataSource(
     private val service: KeyboardService
 ): KeyboardDataSource {
+    override suspend fun getKeyboardVersion(id: Int): Long =
+        withContext(Dispatchers.IO) {
+            return@withContext service.getKeyboardVersion(id).data?.let {
+                it.version
+            } ?: 0
+        }
     override suspend fun getKeyboardJoinKeyAll(id: Int): Result<SelectKeyboardJoinKeyAll> =
         withContext(Dispatchers.IO) {
             return@withContext try {

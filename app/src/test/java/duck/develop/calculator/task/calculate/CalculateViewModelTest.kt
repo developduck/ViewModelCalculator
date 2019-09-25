@@ -6,6 +6,7 @@ import com.google.common.truth.Truth
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import duck.develop.calculator.LiveDataTestUtil.getValue
+import duck.develop.calculator.MainCoroutineRule
 import duck.develop.calculator.data.model.Result
 import duck.develop.calculator.data.model.entity.Key
 import duck.develop.calculator.data.model.query.SelectKeyboardJoinKeyAll
@@ -20,24 +21,19 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-@ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class CalculateViewModelTest {
     private lateinit var dataSource: KeyboardDataSource
     private lateinit var viewModel: CalculateViewModel
 
-//    @get:Rule
-//    var mainCoroutineRule = MainCoroutineRule()
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private val mainThreadSurrogate = newSingleThreadContext("UI Thread")
-
     @Before
     fun before() {
-        Dispatchers.setMain(mainThreadSurrogate)
-
         //Data : 데이터
         val dummy: SelectKeyboardJoinKeyAll = SelectKeyboardJoinKeyAll(1, 5).apply {
             keys = listOf(Key(1, 1, "CE", "ce", 0))
@@ -52,8 +48,6 @@ class CalculateViewModelTest {
     }
     @After
     fun after() {
-        Dispatchers.resetMain()
-        mainThreadSurrogate.close()
     }
 
     @Test

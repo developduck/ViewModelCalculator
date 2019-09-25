@@ -9,6 +9,7 @@ import duck.develop.calculator.data.model.query.SelectKeyboardJoinKeyAll
  * Description : 키보드 데이터 인터페이스
  */
 interface KeyboardDataSource {
+    suspend fun getKeyboardVersion(id: Int): Long
     suspend fun getKeyboardJoinKeyAll(id: Int): Result<SelectKeyboardJoinKeyAll>
     suspend fun insertOrUpdateKeyboardWithKeyAll(query: SelectKeyboardJoinKeyAll): Result<SelectKeyboardJoinKeyAll>
 }

@@ -3,6 +3,8 @@ package duck.develop.calculator.data.source.repository
 import duck.develop.calculator.data.model.Result
 import duck.develop.calculator.data.model.query.SelectKeyboardJoinKeyAll
 import duck.develop.calculator.data.source.KeyboardDataSource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * Created by Hwang on 2019-06-28.
@@ -13,9 +15,22 @@ class KeyboardRepository(
     private val local: KeyboardDataSource,
     private val remote: KeyboardDataSource
 ): KeyboardDataSource {
-    override suspend fun getKeyboardJoinKeyAll(id: Int): Result<SelectKeyboardJoinKeyAll> {
-        return remote.getKeyboardJoinKeyAll(id)
+    override suspend fun getKeyboardVersion(id: Int): Long {
+        return remote.getKeyboardVersion(id)
     }
+    override suspend fun getKeyboardJoinKeyAll(id: Int): Result<SelectKeyboardJoinKeyAll> =
+        withContext(Dispatchers.IO) {
+            return@withContext if (local.getKeyboardVersion(id) < remote.getKeyboardVersion(id)) {
+                remote.getKeyboardJoinKeyAll(id).let {
+                    when (it) {
+                        is Result.Success -> insertOrUpdateKeyboardWithKeyAll(it.data)
+                        is Result.Error -> it
+                    }
+                }
+            } else {
+                local.getKeyboardJoinKeyAll(id)
+            }
+        }
     override suspend fun insertOrUpdateKeyboardWithKeyAll(query: SelectKeyboardJoinKeyAll): Result<SelectKeyboardJoinKeyAll> {
         return local.insertOrUpdateKeyboardWithKeyAll(query)
     }

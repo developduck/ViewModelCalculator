@@ -13,6 +13,6 @@ import org.koin.dsl.module
  * Description : 뷰 모델 모듈
  */
 val viewModel = module {
-    viewModel { SplashViewModel(get(named(Repository.CONFIG_REPOSITORY)), get()) }
+    viewModel { SplashViewModel(get(named(Repository.CONFIG_REPOSITORY))) }
     viewModel { CalculateViewModel(get(named(Repository.KEYBOARD_REPOSITORY))) }
 }

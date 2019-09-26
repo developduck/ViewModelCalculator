@@ -5,6 +5,7 @@ import duck.develop.calculator.data.model.entity.Keyboard
 import duck.develop.calculator.data.model.query.SelectKeyboardJoinKeyAll
 import duck.develop.calculator.data.source.KeyboardDataSource
 import duck.develop.calculator.data.source.local.dao.KeyboardDataAccessObj
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -14,10 +15,11 @@ import kotlinx.coroutines.withContext
  * Description : 키보드 관련 Local Source
  */
 class KeyboardLocalDataSource(
-    private val dao: KeyboardDataAccessObj
+    private val dao: KeyboardDataAccessObj,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): KeyboardDataSource {
     override suspend fun getKeyboardVersion(id: Int): Long =
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             return@withContext try {
                 dao.getKeyboardVersion(id)
             } catch (e: Exception) {
@@ -25,7 +27,7 @@ class KeyboardLocalDataSource(
             }
         }
     override suspend fun getKeyboardJoinKeyAll(id: Int): Result<SelectKeyboardJoinKeyAll> =
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             return@withContext try {
                 dao.getKeyboardJoinKeyAll(id).let {
                     Result.Success(it)
@@ -35,7 +37,7 @@ class KeyboardLocalDataSource(
             }
         }
     override suspend fun insertOrUpdateKeyboardWithKeyAll(query: SelectKeyboardJoinKeyAll): Result<SelectKeyboardJoinKeyAll> =
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             return@withContext try {
                 dao.insert(Keyboard(query), query.keys)
                 Result.Success(query)

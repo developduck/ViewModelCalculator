@@ -3,6 +3,7 @@ package duck.develop.calculator.data.source.repository
 import duck.develop.calculator.data.model.Result
 import duck.develop.calculator.data.model.query.SelectKeyboardJoinKeyAll
 import duck.develop.calculator.data.source.KeyboardDataSource
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -13,13 +14,14 @@ import kotlinx.coroutines.withContext
  */
 class KeyboardRepository(
     private val local: KeyboardDataSource,
-    private val remote: KeyboardDataSource
+    private val remote: KeyboardDataSource,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): KeyboardDataSource {
     override suspend fun getKeyboardVersion(id: Int): Long {
         return remote.getKeyboardVersion(id)
     }
     override suspend fun getKeyboardJoinKeyAll(id: Int): Result<SelectKeyboardJoinKeyAll> =
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             return@withContext if (local.getKeyboardVersion(id) < remote.getKeyboardVersion(id)) {
                 remote.getKeyboardJoinKeyAll(id).let {
                     when (it) {

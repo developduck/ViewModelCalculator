@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'de.mannodermaus.android-junit5'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     compileSdkVersion rootProject.compile_sdk_version.toInteger()
@@ -77,6 +78,9 @@ android {
     dataBinding {
         enabled = true
     }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 }
 androidExtensions {
     experimental = true
@@ -119,8 +123,8 @@ dependencies {
     implementation 'com.google.android:flexbox:1.1.0'
     implementation "androidx.fragment:fragment:1.1.0"
     implementation "androidx.fragment:fragment-testing:1.1.0"
-    implementation "androidx.navigation:navigation-fragment-ktx:2.1.0"
-    implementation "androidx.navigation:navigation-ui-ktx:2.1.0"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1'
     //Database
     implementation "androidx.room:room-runtime:$room_version"

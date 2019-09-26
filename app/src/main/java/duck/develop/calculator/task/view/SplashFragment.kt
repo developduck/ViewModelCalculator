@@ -11,7 +11,6 @@ import duck.develop.calculator.R
 import duck.develop.calculator.databinding.FragmentSplashBinding
 import duck.develop.calculator.manager.CommonDialog
 import duck.develop.calculator.task.DefaultFragment
-import duck.develop.calculator.data.event.Event
 import duck.develop.calculator.data.event.EventObserver
 import duck.develop.calculator.task.viewmodel.SplashViewModel
 import org.koin.android.ext.android.inject
@@ -28,6 +27,7 @@ class SplashFragment: DefaultFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setupNavigate()
         setupEvent()
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -55,15 +55,12 @@ class SplashFragment: DefaultFragment() {
         }
     }
 
-    private fun setupEvent() {
-        viewModel.event.observe(this, EventObserver { type ->
-            when (type) {
-                Event.Type.NEXT -> findNavController().navigate(
-                    R.id.action_splash_fragment_to_calculate_fragment,
-                    Bundle().apply {
-                        putString("INIT_RESULT", "0")
-                    })
-            }
+    private fun setupNavigate() {
+        viewModel.navigate.observe(this, EventObserver {
+            findNavController().navigate(SplashFragmentDirections
+                .actionSplashFragmentToCalculateFragment("0"))
         })
+    }
+    private fun setupEvent() {
     }
 }

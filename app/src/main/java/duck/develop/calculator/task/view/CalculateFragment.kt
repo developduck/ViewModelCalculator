@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import com.jakewharton.rxbinding3.view.clicks
 import duck.develop.calculator.R
 import duck.develop.calculator.data.model.Type
@@ -31,6 +32,7 @@ class CalculateFragment: DefaultFragment() {
     private lateinit var viewDataBinding: FragmentCalculateBinding
 
     private val viewModel by inject<CalculateViewModel>()
+    private val argument by navArgs<CalculateFragmentArgs>()
     private val disposable = CompositeDisposable()
 
     private val onClick = { key: Key ->
@@ -57,7 +59,7 @@ class CalculateFragment: DefaultFragment() {
                 viewModel = this@CalculateFragment.viewModel
             }
             viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
-            viewModel.start(arguments?.getString("INIT_RESULT")!!)
+            viewModel.start(argument.INITRESULT!!)
         }
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -87,6 +89,10 @@ class CalculateFragment: DefaultFragment() {
                 }
             }
         })
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        if (!disposable.isDisposed) disposable.dispose()
     }
 
     private fun getIdentifier(name: String, defType: String, action: (Int) -> Unit) {

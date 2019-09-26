@@ -1,7 +1,7 @@
 package duck.develop.calculator.di.module
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import com.google.gson.GsonBuilder
+import com.squareup.moshi.Moshi
 import duck.develop.calculator.R
 import duck.develop.calculator.data.source.remote.implement.ConfigServiceImpl
 import duck.develop.calculator.data.source.remote.service.ConfigService
@@ -16,7 +16,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
 /**
@@ -38,8 +38,8 @@ val network = module {
             .build()
     }
     factory<Converter.Factory> {
-        GsonConverterFactory.create(GsonBuilder()
-            .create())
+        MoshiConverterFactory.create(Moshi.Builder()
+            .build())
     }
     factory {
         OkHttpClient.Builder()
@@ -58,7 +58,7 @@ val network = module {
      *  │           │           │→ Application
      *  ↓           │           ┘   Interceptors
      * ┌───────────┐
-     * │     OkHttp Core      │
+     * │OkHttp Core│
      * └───────────┘
      *  ↓   ↑   │Request   ↑Response ┐
      *   Cache    │          │         │→  Network

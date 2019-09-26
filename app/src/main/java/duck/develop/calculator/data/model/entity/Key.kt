@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -22,20 +22,20 @@ import kotlinx.android.parcel.Parcelize
         onDelete = CASCADE)
 ])
 data class Key(
-    @SerializedName(value = "id")
+    @Json(name = "id")
     @PrimaryKey var id: Int,
-    @SerializedName(value = "keyboard_id")
+    @Json(name = "keyboard_id")
     var keyboard_id: Int,
-    @SerializedName(value = "display")
+    @Json(name = "display")
     var display: String,
-    @SerializedName(value = "command")
+    @Json(name = "command")
     var command: String,
-    @SerializedName(value = "order")
+    @Json(name = "order")
     var order: Int,
-    @SerializedName(value = "style")
+    @Json(name = "style")
     var style: String? = null,
-    @SerializedName(value = "width")
+    @Json(name = "width")
     var width: Int = 0,
-    @SerializedName(value = "height")
+    @Json(name = "height")
     var height: Int = 0
 ): Parcelable

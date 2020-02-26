@@ -2,10 +2,13 @@ package duck.develop.calculator.di.module
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import duck.develop.calculator.R
+import duck.develop.calculator.data.adapter.ObservableFieldStringAdapter
 import duck.develop.calculator.data.source.remote.implement.ConfigServiceImpl
 import duck.develop.calculator.data.source.remote.service.ConfigService
 import duck.develop.calculator.data.source.remote.service.KeyboardService
+import duck.develop.calculator.data.source.remote.service.MovieService
 import duck.develop.calculator.di.Network.DEBUGGING_INTERCEPTOR
 import duck.develop.calculator.di.Network.REQUEST_HEADER_INTERCEPTOR
 import duck.develop.calculator.di.named
@@ -27,6 +30,7 @@ import java.util.concurrent.TimeUnit
 val network = module {
     //Service
     factory { get<Retrofit>().create(KeyboardService::class.java) }
+    factory { get<Retrofit>().create(MovieService::class.java) }
     factory<ConfigService> { ConfigServiceImpl(get()) }
 
     //Module
@@ -39,6 +43,7 @@ val network = module {
     }
     factory<Converter.Factory> {
         MoshiConverterFactory.create(Moshi.Builder()
+            .add(ObservableFieldStringAdapter())
             .build())
     }
     factory {

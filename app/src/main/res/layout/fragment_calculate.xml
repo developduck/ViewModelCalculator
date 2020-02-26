@@ -14,24 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#BBBBBB">
-
-        <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/pnl_app_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/colorPrimary"
-                    android:minHeight="?attr/actionBarSize"
-                    android:theme="@style/toolbar" />
-        </com.google.android.material.appbar.AppBarLayout>
-
         <TextView
                 android:id="@+id/txt_result"
                 android:layout_width="0dp"
@@ -43,7 +25,7 @@
                 android:textSize="60sp"
                 android:text="@{view_model.result}"
                 android:singleLine="true"
-                app:layout_constraintTop_toBottomOf="@+id/pnl_app_bar"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
         <GridLayout
@@ -62,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="@{view_model.loading ? View.VISIBLE : View.GONE}"
-                app:layout_constraintTop_toBottomOf="@+id/pnl_app_bar"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>

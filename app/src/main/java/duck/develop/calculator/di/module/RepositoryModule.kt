@@ -2,12 +2,15 @@ package duck.develop.calculator.di.module
 
 import duck.develop.calculator.data.source.ConfigDataSource
 import duck.develop.calculator.data.source.KeyboardDataSource
+import duck.develop.calculator.data.source.MovieDataSource
 import duck.develop.calculator.data.source.local.ConfigLocalDataSource
 import duck.develop.calculator.data.source.local.KeyboardLocalDataSource
 import duck.develop.calculator.data.source.remote.ConfigRemoteDataSource
 import duck.develop.calculator.data.source.remote.KeyboardRemoteDataSource
+import duck.develop.calculator.data.source.remote.MovieRemoteDataSource
 import duck.develop.calculator.data.source.repository.ConfigRepository
 import duck.develop.calculator.data.source.repository.KeyboardRepository
+import duck.develop.calculator.data.source.repository.MovieRepository
 import duck.develop.calculator.di.Repository.*
 import duck.develop.calculator.di.named
 import org.koin.dsl.module
@@ -29,4 +32,10 @@ val repository = module {
     }
     single<ConfigDataSource>(named(CONFIG_LOCAL_DATA_SOURCE)) { ConfigLocalDataSource() }
     single<ConfigDataSource>(named(CONFIG_REMOTE_DATA_SOURCE)) { ConfigRemoteDataSource(get()) }
+
+
+    single<MovieDataSource>(named(MOVIE_REPOSITORY)) {
+        MovieRepository(get(named(MOVIE_REMOTE_DATA_SOURCE)))
+    }
+    single<MovieDataSource>(named(MOVIE_REMOTE_DATA_SOURCE)) { MovieRemoteDataSource(get()) }
 }

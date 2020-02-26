@@ -35,24 +35,16 @@ class CalculateViewModel(
         _loading.value = true
     }
 
-    fun loadKeyboard(width: Int, height: Int) {
-        viewModelScope.launch {
-            repository.getKeyboardJoinKeyAll(1).let { result ->
-                if (result is Result.Success) {
-                    _keyboard.value = result.data.apply {
-                        result.data.keys.withIndex().forEach {
-                            it.value.width = width / column_count
-                            it.value.height = height / ((result.data.keys.size / column_count) + (result.data.keys.size % column_count))
-                        }
-                    }
-                    _keys.value = result.data.keys
-                    _loading.value = false
-                } else {
-                    if (result is Result.Error && result.exception is HttpException) {
-                        _status.value = result.exception.code()
-                    }
+    fun loadKeyboard(width: Int, height: Int) = viewModelScope.launch {
+        withErrorHandler(repository.getKeyboardJoinKeyAll(1)) { data ->
+            _keyboard.value = data.apply {
+                data.keys.withIndex().forEach {
+                    it.value.width = width / column_count
+                    it.value.height = height / ((data.keys.size / column_count) + (data.keys.size % column_count))
                 }
             }
+            _keys.value = data.keys
+            _loading.value = false
         }
     }
 }

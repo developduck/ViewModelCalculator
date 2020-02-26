@@ -17,6 +17,7 @@ import duck.develop.calculator.data.model.entity.Key
 import duck.develop.calculator.databinding.FragmentCalculateBinding
 import duck.develop.calculator.extensions.onGlobalLayout
 import duck.develop.calculator.task.DefaultFragment
+import duck.develop.calculator.task.DefaultViewModel
 import duck.develop.calculator.task.viewmodel.CalculateViewModel
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_calculate.*

@@ -20,9 +20,11 @@ class KeyboardRemoteDataSource(
 ): KeyboardDataSource {
     override suspend fun getKeyboardVersion(id: Int): Long =
         withContext(dispatcher) {
-            return@withContext service.getKeyboardVersion(id).data?.let {
-                it.version
-            } ?: 0
+            return@withContext try {
+                service.getKeyboardVersion(id).data?.version ?: 0L
+            } catch (e: Exception) {
+                0L
+            }
         }
     override suspend fun getKeyboardJoinKeyAll(id: Int): Result<SelectKeyboardJoinKeyAll> =
         withContext(dispatcher) {

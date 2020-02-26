@@ -15,7 +15,7 @@
             android:name=".App"
             tools:ignore="GoogleAppIndexingWarning"
             android:usesCleartextTraffic="true">
-        <activity android:name=".task.container.ContainerActivity"
+        <activity android:name=".task.container.SplashActivity"
                   android:theme="@style/app_theme.full_screen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -23,6 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".task.container.ContainerActivity" />
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package duck.develop.calculator.task.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import duck.develop.calculator.databinding.FragmentSplashBinding
 import duck.develop.calculator.manager.CommonDialog
 import duck.develop.calculator.task.DefaultFragment
 import duck.develop.calculator.data.event.EventObserver
+import duck.develop.calculator.task.container.ContainerActivity
 import duck.develop.calculator.task.viewmodel.SplashViewModel
 import org.koin.android.ext.android.inject
 
@@ -57,8 +59,12 @@ class SplashFragment: DefaultFragment() {
 
     private fun setupNavigate() {
         viewModel.navigate.observe(this, EventObserver {
-            findNavController().navigate(SplashFragmentDirections
-                .actionSplashFragmentToCalculateFragment("0"))
+            activity?.let {
+                startActivity(Intent(it, ContainerActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                it.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            }
         })
     }
     private fun setupEvent() {

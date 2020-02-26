@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+
+<navigation
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/navigation_graph"
-        app:startDestination="@id/splash_fragment">
+        app:startDestination="@id/calculate_fragment">
 
-    <fragment
-            android:id="@+id/splash_fragment"
-            android:name="duck.develop.calculator.task.view.SplashFragment"
-            android:label="SplashFragment"
-            tools:layout="@layout/fragment_splash" >
-        <action
-                android:id="@+id/action_splash_fragment_to_calculate_fragment"
-                app:destination="@id/calculate_fragment"
-                app:popUpTo="@+id/splash_fragment"
-                app:popUpToInclusive="true"/>
-    </fragment>
+<!--    <fragment-->
+<!--            android:id="@+id/splash_fragment"-->
+<!--            android:name="duck.develop.calculator.task.view.SplashFragment"-->
+<!--            android:label="SplashFragment"-->
+<!--            tools:layout="@layout/fragment_splash" >-->
+
+<!--&lt;!&ndash;    enterAnim : action을 수행할 때 이동할 화면(destination)에 대한 애니메이션&ndash;&gt;-->
+<!--&lt;!&ndash;    exitAnim : action을 수행할 때 현재 화면에 대한 애니메이션&ndash;&gt;-->
+<!--&lt;!&ndash;    popExitAnim : 지난 화면으로 돌아갈 때(pop) 종료되는 화면에 대한 애니메이션&ndash;&gt;-->
+<!--&lt;!&ndash;    popEnterAnim : 지난 화면으로 돌아갈 때 이동할 화면에 대한 애니메이션&ndash;&gt;-->
+<!--        <action-->
+<!--                android:id="@+id/action_splash_fragment_to_calculate_fragment"-->
+<!--                app:destination="@id/calculate_fragment"-->
+<!--                app:exitAnim="@android:anim/fade_out"-->
+<!--                app:popUpTo="@+id/splash_fragment"-->
+<!--                app:popUpToInclusive="true"/>-->
+
+<!--    </fragment>-->
 
     <fragment
             android:id="@+id/calculate_fragment"
@@ -28,4 +37,34 @@
                 app:argType="string"
                 app:nullable="true"/>
     </fragment>
+
+    <fragment
+            android:id="@+id/movies_fragment"
+            android:name="duck.develop.calculator.task.view.MoviesFragment"
+            android:label="MoviesFragment"
+            tools:layout="@layout/fragment_movies" />
+
+    <fragment
+            android:id="@+id/tab2_first_fragment"
+            android:name="duck.develop.calculator.task.view.Tab2FirstFragment"
+            android:label="Tab2FirstFragment"
+            tools:layout="@layout/fragment_tab2_first">
+        <action
+                android:id="@+id/action_tab2_first_fragment_to_tab2_second_fragment"
+                app:destination="@id/tab2_second_fragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/tab2_second_fragment"
+            android:name="duck.develop.calculator.task.view.Tab2SecondFragment"
+            android:label="Tab2SecondFragment"
+            tools:layout="@layout/fragment_tab2_second">
+        <action
+                android:id="@+id/action_tab2_second_fragment_to_tab2_third_fragment"
+                app:destination="@id/tab2_third_fragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/tab2_third_fragment"
+            android:name="duck.develop.calculator.task.view.Tab2ThirdFragment"
+            android:label="Tab2ThirdFragment"
+            tools:layout="@layout/fragment_tab2_third"/>
 </navigation>
